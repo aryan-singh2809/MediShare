@@ -26,5 +26,3 @@
 5. *Reporting & Analytics*: 
    - Provides insights into platform usage, including metrics like total medicines donated/sold, user engagement, and trending medicines.
    - Generates reports for administrators to monitor platform performance, identify areas for improvement, and ensure the quality control measures are effective.
-
-This structure now includes the *Verification & Quality Control* and *Location-Based Matching* modules, providing a comprehensive approach to managing medicine exchanges while ensuring safety and accessibility.
