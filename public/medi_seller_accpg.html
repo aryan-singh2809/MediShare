@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Account Details</title>
+    <link rel="stylesheet" href="medi_sellpg.css">
+    <link rel="icon" type="image" href="immages/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="immages/MediShare_logo_1_-removebg-preview.png" alt="this is logo">
+            <span class="logo-text">MEDISHARE</span>
+        </a>
+
+        <nav class="headbar">
+            <a href="medi_userpg.html">Home</a>
+            <a href="medi_homepg_login.html">Login</a>
+            <!-- <a href="#medicine">Medicine</a>
+            <a href="#service">Service</a>
+            <a href="#contact">Contact</a> -->
+        </nav>
+    </header>
+
+    <section class="main" id="formSection">
+        <form id="sellerAccountForm">
+            <h1>Enter your account details</h1>
+            <div class="input-field">
+                <i class="fas fa-credit-card"></i>
+                <input type="number" id="acc_num" name="acc_num" placeholder="Account number">
+            </div>
+
+            <div class="input-field">
+                <i class="fas fa-hashtag"></i>
+                <input type="text" id="ifsc" name="ifsc" placeholder="IFSC Code">
+            </div>
+
+            <button type="submit">SUBMIT</button>
+        </form>
+    </section>
+
+    <section id="thankYouMessage" style="display:none; text-align:center;">
+        <h1>Thank you for using our Website!!</h1>
+        <h2>Your account details have been submitted successfully.</h2>
+        <h2>Your medicine will be listed on our website once its verified in 2-3 days.</h2>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#sellerAccountForm').on('submit', function(e) {
+            e.preventDefault();
+            var acc_num = $('#acc_num').val();
+            var ifsc = $('#ifsc').val();
+
+            $.ajax({
+                url: '/submit-seller-account',
+                type: 'POST',
+                data: {
+                    acc_num: acc_num,
+                    ifsc: ifsc
+                },
+                success: function(response) {
+                    document.getElementById("formSection").style.display = "none";
+                    document.getElementById("thankYouMessage").style.display = "block";
+                },
+                error: function(xhr, status, error) {
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

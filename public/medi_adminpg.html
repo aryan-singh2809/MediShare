@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="medi_adminpg.css">
+    <link rel="icon" type="image" href="immages/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="immages/MediShare_logo_1_-removebg-preview.png" alt="this is logo">
+            <span class="logo-text">MEDISHARE</span>
+        </a>
+        <nav class="headbar">
+            <a href="medi_homepg.html">Home</a>
+            <a href="medi_homepg_login.html">Login</a>
+        </nav>
+        <button class="right" onclick="location.href='admin_msg.html'">Compose Message</button>
+        <button class="right" onclick="location.href='analytics_chart.html'">Analytics</button>
+    </header>
+
+    <section class="main">
+        <div class="left">
+            <img src="immages/listofmed.jpeg">
+            
+            <div class="menubtn">
+                <button id="medicineBtn"><h2>List of Medicines</h2></button>
+
+                <div id="medicineDropdown" style="display: none; max-height: 400px; overflow-y: auto;">
+
+                    <div id="noMedicinesMessage" style="display: none; text-align: center; font-size: 18px; color: red;">
+                        No Medicines Pending
+                    </div>
+                    
+                    <table id="medicineTable" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Qty Available</th>
+                                <th>Expiry Date</th>
+                                <th>Price</th>
+                                <th>Verify</th>
+                            </tr>
+                        </thead>
+                        <tbody id="medicineTableBody">
+                            <tr>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="transactionDropdown" style="display: none; max-height: 400px; overflow-y: auto;">
+            <table id="transactionTable" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Medicine ID</th>
+                        <th>Buyer ID</th>
+                        <th>Quantity</th>
+                        <th>Total Amount</th>
+                        <th>Transaction Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="transactionTableBody"></tbody>
+            </table>
+        </div>
+
+        <div id="messageDropdown" style="display: none; max-height: 400px; overflow-y: auto;">
+            <table id="messageTable" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Notification ID</th>
+                        <th>Username</th>
+                        <th>Notification Text</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+                <tbody id="messageTableBody"></tbody>
+            </table>
+        </div>
+
+
+        <div class="mid">
+            <img src="immages/listoftrans.jpeg">
+            
+            <button id="transactionbtn" onclick="location.href='#'"><h2>List of Transactions</h2></button>
+        </div>
+
+        <div class="right">
+            <img src="immages/msgsent.jpeg">
+            
+            <button id="messagebtn" onclick="location.href='#'"><h2>Messages Sent</h2></button>
+        </div>
+    </section>
+
+    <script>
+        function handleDropdown(buttonId, dropdownId, fetchFunction) {
+            const button = document.getElementById(buttonId);
+            const dropdown = document.getElementById(dropdownId);
+    
+            button.addEventListener("click", function () {
+                const isVisible = dropdown.style.display === "block";
+                dropdown.style.display = isVisible ? "none" : "block";
+
+                if (!isVisible && fetchFunction) {
+                    fetchFunction();
+                }
+            });
+
+            window.addEventListener("click", function (event) {
+                if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+                    dropdown.style.display = "none";
+                }
+            });
+        }
+
+        async function handleToggleChange(event) {
+            const medicineId = event.target.getAttribute('data-id'); 
+            const isChecked = event.target.checked; 
+            const newStatus = isChecked ? 'verified' : 'pending';
+    
+            event.target.disabled = true; 
+    
+            try {
+                const response = await fetch('/api/medicines/update-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ medicineId, status: newStatus })
+                });
+    
+                const data = await response.json();
+                if (data.success) {
+                    console.log('Medicine status updated successfully:', newStatus);
+    
+                    if (newStatus === 'verified') {
+                        const rowToRemove = event.target.closest('tr');
+                        rowToRemove.remove();
+                    }
+    
+                    alert('Medicine Verified!');
+                } else {
+                    console.error('Error updating medicine status:', data.message);
+                    event.target.checked = !isChecked;
+                }
+            } catch (error) {
+                console.error('Error updating status:', error);
+                event.target.checked = !isChecked;
+            } finally {
+                event.target.disabled = false; 
+            }
+        }
+    
+        async function fetchMedicines() {
+            try {
+                const response = await fetch('/api/medicines/pending');
+                const medicines = await response.json();
+    
+                const medicineTableBody = document.getElementById('medicineTableBody');
+                const noMedicinesMessage = document.getElementById('noMedicinesMessage');
+                medicineTableBody.innerHTML = '';
+    
+                if (medicines.length === 0) {
+                    noMedicinesMessage.style.display = 'block';
+                } else {
+                    noMedicinesMessage.style.display = 'none';
+                    medicines.forEach(medicine => {
+                        const row = document.createElement('tr');
+                        const formattedExpiryDate = new Date(medicine.Exp_date).toISOString().split('T')[0];
+                        row.innerHTML = `
+                            <td>${medicine.Id}</td>
+                            <td>${medicine.Name}</td>
+                            <td>${medicine.Username}</td>
+                            <td>${medicine.Qty}</td>
+                            <td>${formattedExpiryDate}</td>
+                            <td>${medicine.Price}</td>
+                            <td>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" data-id="${medicine.Id}" class="toggle-btn">
+                                    <span class="slider"></span>
+                                </label>
+                            </td>
+                        `;
+                        medicineTableBody.appendChild(row);
+                    });
+
+                    const toggleButtons = document.querySelectorAll('.toggle-btn');
+                    toggleButtons.forEach(button => {
+                        button.addEventListener('change', handleToggleChange);
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching medicines:', error);
+            }
+        }
+    
+        async function fetchTransactions() {
+            try {
+                const response = await fetch('/api/transactions/completed');
+                const transactions = await response.json();
+    
+                const transactionTableBody = document.getElementById('transactionTableBody');
+                transactionTableBody.innerHTML = '';
+                transactions.forEach(transaction => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${transaction.Trans_id}</td>
+                        <td>${transaction.Medicine_id}</td>
+                        <td>${transaction.Buyer_id}</td>
+                        <td>${transaction.Qty}</td>
+                        <td>${transaction.Total_amt}</td>
+                        <td>${transaction.Trans_date}</td>
+                        <td>${transaction.Status}</td>
+                    `;
+                    transactionTableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching transactions:', error);
+            }
+        }
+    
+        async function fetchNotifications() {
+            try {
+                const response = await fetch('/api/notifications/unreplied');
+                const notifications = await response.json();
+    
+                const messageTableBody = document.getElementById('messageTableBody');
+                messageTableBody.innerHTML = '';
+                notifications.forEach(notification => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${notification.Notif_id}</td>
+                        <td>${notification.Username}</td>
+                        <td>${notification.Notif_text}</td>
+                        <td>${notification.Created_at}</td>
+                    `;
+                    messageTableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching notifications:', error);
+            }
+        }
+    
+        handleDropdown("medicineBtn", "medicineDropdown", fetchMedicines);
+        handleDropdown("transactionbtn", "transactionDropdown", fetchTransactions);
+        handleDropdown("messagebtn", "messageDropdown", fetchNotifications);
+    </script>
+    
+    
+    
+</body>
+</html>

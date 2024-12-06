@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transactions, Medicine Status, and User Growth</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>Year vs No. of Transactions</h2>
+    <div class="chart-container">
+        <canvas id="transactionsChart"></canvas>
+    </div>
+
+    <h2>Medicine Status Distribution</h2>
+    <div class="chart-container">
+        <canvas id="statusChart"></canvas>
+    </div>
+
+    <h2>Expected vs. Actual Total Users</h2>
+    <div class="chart-container">
+        <canvas id="userComparisonChart"></canvas>
+    </div>
+
+    <script>
+        async function fetchTransactionsData() {
+            const response = await fetch('/chart/transactions-per-year');
+            const data = await response.json();
+
+            const years = data.map(item => item.Year);
+            const transactionCounts = data.map(item => item.TransactionCount);
+
+            const ctx = document.getElementById('transactionsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'No. of Transactions',
+                        data: transactionCounts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        async function fetchStatusCounts() {
+            const response = await fetch('/chart/status-counts');
+            const data = await response.json();
+
+            const statuses = data.map(item => item.Status);
+            const counts = data.map(item => item.Count);
+
+            const ctx = document.getElementById('statusChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: statuses,
+                    datasets: [{
+                        data: counts,
+                        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                        borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        async function fetchUserComparisonData() {
+            const response = await fetch('/chart/user-comparison');
+            const data = await response.json();
+
+            const ctx = document.getElementById('userComparisonChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Expected Users', 'Actual Users'],
+                    datasets: [{
+                        label: 'Total Users',
+                        data: [data.expectedUserCount, data.actualUserCount],
+                        backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)'],
+                        borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        fetchTransactionsData();
+        fetchStatusCounts();
+        fetchUserComparisonData();
+    </script>
+</body>
+</html>

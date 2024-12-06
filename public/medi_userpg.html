@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="medi_homepg.css">
+    <link rel="icon" type="image" href="immages/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="immages/MediShare_logo_1_-removebg-preview.png" alt="this is logo">
+            <span class="logo-text">MEDISHARE</span>
+        </a>
+
+        <nav class="headbar">
+            <a href="medi_homepg.html">Home</a>
+            <a href="medi_homepg_login.html" id="loginbtn">Login</a>
+            <!-- <a href="#medicine">Medicine</a>
+            <a href="#service">Service</a>
+            <a href="#contact">Contact</a> -->
+        </nav>
+
+        <div class="menubtn" style="position: relative;">
+            <span id="notifDot" class="notification-dot"></span>
+            <button id="notifBtn"><i class="fas fa-bell"></i></button>
+            
+            <div id="notifDropdown" class="notification-dropdown">
+                <h4>Notifications</h4>
+                <ul>
+                    <li>No new notifications</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="menubtn">
+            <button id="historyBtn"><i class="fas fa-history"></i></button>
+            <div id="historyDropdown" class="notification-dropdown">
+                <h4>History</h4>
+                <ul>
+                    <li>No new Orders</li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div id="infoBtnContainer">
+        <button id="infoBtn"><i class="fas fa-info-circle"></i></button>
+    </div>
+    
+    <div id="infoPopup" class="info-popup">
+        <div class="info-popup-content">
+            <span class="close-btn">&times;</span>
+            <h3>General Instructions:</h3>
+            <h4>For Sellers:</h4>
+            <p>1) We do not entertain any kind of medicines that are not safe to sell, such medicines won't be verified on our website.</p>
+            <p>2) The payment for your ordered consignment will be transferred into your back account, after you deliver the medicine to the buyer. Your bank account number and IFSC code will be asked to do so.</p>
+            <p>3) Delivery Charges are charged from the user based on the distance between the buyer and the seller at the rate of $2 per km. Distance less than 2km results in free delivery.</p>
+            <h4>For Buyers:</h4>
+            <p>1) The medicines you search for on our website appear based on your location. If your requested medicine is available within 15km radius from your location, then only it will be shown to you.</p>
+            <p>2) The maximum waiting time for a delivery is 3 days. If you do not receive your consignment even after 3 days, kindly inform us via the Notifications button where the option to do so will be provided after you place your order.</p>
+        </div>
+    </div>
+    
+
+    <section class="main_user">
+        <div class="left">
+            <img src="immages/buy_medi1.png">
+            <h2>Buy Medicines</h2>
+            <button id="buybtn" onclick="location.href='medi_buypg.html'">Buy</button>
+        </div>
+
+        <div class="right">
+            <img src="immages/sell_medi.png">
+            <h2>Sell Medicines</h2>
+            <button id="sellbtn" onclick="location.href='medi_sellpg.html'">Sell</button>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchNotifications();
+        });
+        const notifBtn = document.getElementById("notifBtn");
+        const notifDropdown = document.getElementById("notifDropdown");
+        const historyBtn = document.getElementById("historyBtn");
+        const historyDropdown = document.getElementById("historyDropdown");
+    
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString();
+        }
+    
+        notifBtn.addEventListener("click", function() {
+            notifDropdown.style.display = notifDropdown.style.display === "block" ? "none" : "block";
+            fetchNotifications();
+        });
+
+        historyBtn.addEventListener("click", function() {
+            historyDropdown.style.display = historyDropdown.style.display === "block" ? "none" : "block";
+            fetchHistory();
+        });
+
+        window.addEventListener("click", function(event) {
+            if (!notifBtn.contains(event.target) && !notifDropdown.contains(event.target)) {
+                notifDropdown.style.display = "none";
+            }
+            if (!historyBtn.contains(event.target) && !historyDropdown.contains(event.target)) {
+                historyDropdown.style.display = "none";
+            }
+        });
+
+        function fetchNotifications() {
+            console.log("Fetching notifications...");
+            fetch('/notifications', {
+                method: 'GET',
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const notifDot = document.getElementById("notifDot");
+    
+                if (data.notifications && data.notifications.length > 0) {
+                    notifDropdown.innerHTML = "<h4>Notifications</h4>";
+                    const ul = document.createElement("ul");
+                    let hasUnread = false;
+    
+                    data.notifications.forEach(notification => {
+                        const li = document.createElement("li");
+                        li.style.fontWeight = notification.is_read === 0 ? "bold" : "normal";
+                        if (notification.is_read === 0) {
+                            hasUnread = true;
+                        }
+
+                        let notificationContent = `
+                            <p>${notification.Notif_text}</p>
+                            <small>${formatDate(notification.Created_at)}</small>
+                        `;
+
+                        if (notification.Reply === null) {
+                            notificationContent += `
+                                <p>Did you receive this consignment? Kindly answer after 3 days of placing the order.</p>
+                                <button class="yes-btn" onclick="respondToConsignment('Yes', ${notification.Notif_id})">Yes</button>
+                                <button class="no-btn" onclick="respondToConsignment('No', ${notification.Notif_id})">No</button>
+                            `;
+                        }
+
+                        li.innerHTML = notificationContent;
+                        ul.appendChild(li);
+                    });
+    
+                    notifDropdown.appendChild(ul);
+
+                    notifDot.style.display = hasUnread ? "block" : "none";
+                } else {
+                    notifDropdown.innerHTML = "<p>No notifications</p>";
+                    notifDot.style.display = "none";
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching notifications:', error);
+                notifDropdown.innerHTML = "<p>Error fetching notifications.</p>";
+                document.getElementById("notifDot").style.display = "none";
+            });
+        }
+
+        function fetchHistory() {
+            console.log("Fetching history...");
+
+            fetch('/history', {
+                method: 'GET',
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.history && data.history.length > 0) {
+                    historyDropdown.innerHTML = "<h4>History</h4>";
+                    const table = document.createElement("table");
+                    table.id = "historyTable"; // Add the id to the table
+                    table.innerHTML = `
+                        <thead>
+                            <tr>
+                                <th>Seller ID</th>
+                                <th>Buyer ID</th>
+                                <th>Medicine Name</th>
+                                <th>Quantity Bought</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.history.map(row => `
+                                <tr>
+                                    <td>${row.Seller_id}</td>
+                                    <td>${row.Buyer_id}</td>
+                                    <td>${row.Medicine_name}</td>
+                                    <td>${row.Qty_bought}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    `;
+                    historyDropdown.appendChild(table);
+                } else {
+                    historyDropdown.innerHTML = "<p>No history found</p>";
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching history:', error);
+                historyDropdown.innerHTML = "<p>Error fetching history.</p>";
+            });
+        }
+
+        function respondToConsignment(answer, notifId) {
+            const replyValue = answer === 'Yes' ? 1 : 0;
+            fetch(`/respond-to-consignment/${notifId}`, {
+                method: 'POST',
+                body: JSON.stringify({ reply: replyValue }),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                fetchNotifications();
+            })
+            .catch(error => {
+                console.error('Error responding to consignment:', error);
+            });
+        }
+        const buybtn = document.getElementById("buybtn");
+        const sellbtn = document.getElementById("sellbtn");
+
+        document.addEventListener("DOMContentLoaded", () => {
+        const infoBtn = document.getElementById("infoBtn");
+        const infoPopup = document.getElementById("infoPopup");
+        const closeBtn = infoPopup.querySelector(".close-btn");
+
+        infoBtn.addEventListener("click", () => {
+            infoPopup.style.display = "block";
+        });
+
+        closeBtn.addEventListener("click", () => {
+            infoPopup.style.display = "none";
+        });
+
+        window.addEventListener("click", (e) => {
+            if (e.target === infoPopup) {
+                infoPopup.style.display = "none";
+            }
+        });
+    });
+
+    </script>
+    </body>
+</html>

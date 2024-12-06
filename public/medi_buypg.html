@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Medicines</title>
+    <link rel="stylesheet" href="medi_buypg.css">
+    <link rel="icon" type="image/png" href="immages/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="immages/MediShare_logo_1_-removebg-preview.png" alt="this is logo">
+            <span class="logo-text">MEDISHARE</span>
+        </a>
+
+        <nav class="headbar">
+            <a href="medi_userpg.html">Home</a>
+            <a href="medi_homepg_login.html">Login</a>
+            <!-- <a href="#medicine">Medicine</a>
+            <a href="#service">Service</a>
+            <a href="#contact">Contact</a> -->
+        </nav>
+
+    </header>
+
+    <section class="main">
+        <form action="#" method="post">
+            <div class="input-field">
+                <i class="fas fa-search"></i>
+                <input type="text" name="medicine_name" placeholder="Search for Medicines">
+            </div>
+        </form>
+
+        <div id="searchResults" class="results-container"></div>
+    </section>
+    <button id="nextButton" class="next-btn">Generate Bill</button>
+
+    <div id="billContainer" style="display:none;">
+        <h2>Bill Summary</h2>
+        <button id="proceedToPayButton" onclick="location.href='payment.html'">Proceed to Pay</button>
+        <div id="billContent"></div>
+    </div>
+
+    <script>
+        const searchForm = document.querySelector('form');
+        const searchInput = document.querySelector('input[name="medicine_name"]');
+        const resultsContainer = document.querySelector('.results-container'); 
+    
+        searchForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+        
+            const searchQuery = searchInput.value.trim();
+            if (searchQuery) {
+                fetchMedicines(searchQuery);
+            }
+        });
+        
+        function fetchMedicines(query) {
+            fetch('/userLatiLongi')
+                .then(response => response.json())
+                .then(data => {
+                    const username = data.username;
+                    const userLatitude = data.latitude;
+                    const userLongitude = data.longitude;
+    
+                    const resultsContainer = document.getElementById('searchResults');
+                    resultsContainer.innerHTML = '';
+    
+                    fetch('http://localhost:3001/search-medicine', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            medicine_name: query,
+                            username: username,
+                            latitude: userLatitude,
+                            longitude: userLongitude
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(medicines => {
+                        if (medicines.length === 0) {
+                            resultsContainer.innerHTML = 'No medicines found';
+                        } else {
+                            medicines.forEach((medicine) => {
+                                const medicineDiv = document.createElement('div');
+                                medicineDiv.classList.add('medicine-item');
+                                medicineDiv.setAttribute('data-medicine-id', medicine.Id);
+    
+                                medicineDiv.innerHTML = `
+                                    <h3>${medicine.Name}</h3>
+                                    <p><strong>Medicine ID:</strong> ${medicine.Id}</p>
+                                    <p><strong>Seller:</strong> ${medicine.Medicine_Username}</p>
+                                    <p><strong>Price:</strong> $<span class="medicine-price">${medicine.Price}</span></p>
+                                    <p><strong>Expiry Date:</strong> ${medicine.Exp_date}</p>
+                                    <p><strong>Quantity Available:</strong> ${medicine.Qty}</p>
+                                    <p><strong>Delivery Charges:</strong> $<span class="medicine-delivery">${medicine.deliveryCharges}</span></p>
+                                    <label for="quantity-${medicine.Id}"><b>Quantity:</b></label>
+                                    <input type="number" class="quantity-input" id="quantity-${medicine.Id}" name="quantity" 
+                                        min="0" max="${medicine.Qty}" value="0">
+                                `;
+    
+                                resultsContainer.appendChild(medicineDiv);
+
+                                const quantityInput = document.getElementById(`quantity-${medicine.Id}`);
+
+                                if (quantityInput) {
+                                    quantityInput.addEventListener('change', function (event) {
+                                        const qty = parseInt(event.target.value) || 0;
+    
+                                        fetch('http://localhost:3001/set-session-data', {
+                                            method: 'POST',
+                                            headers: { 'Content-Type': 'application/json' },
+                                            body: JSON.stringify({
+                                                Seller_id: medicine.Medicine_Username,
+                                                Buyer_id: username, 
+                                                Medicine_name: medicine.Name, 
+                                                Qty_bought: qty
+                                            })
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            console.log('Session data stored successfully:', data);
+                                        })
+                                        .catch(error => {
+                                            console.error('Error storing session data:', error);
+                                        });
+                                    });
+                                } else {
+                                    console.error(`Quantity input not found for medicine ID: ${medicine.Id}`);
+                                }
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching medicines:', error);
+                        resultsContainer.innerHTML = 'Error fetching medicines';
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
+        }
+    
+        document.body.addEventListener('click', function (e) {
+            if (e.target && e.target.id === 'nextButton') {
+                fetch('/userLatiLongi')
+                    .then(response => response.json())
+                    .then(data => {
+                        const username = data.username;
+                        const userLatitude = data.latitude;
+                        const userLongitude = data.longitude;
+
+                        const medicines = document.querySelectorAll('.medicine-item');
+                        const billItems = [];
+                        let totalBillAmount = 0;
+
+                        medicines.forEach((medicineDiv) => {
+                            const medicineId = medicineDiv.getAttribute('data-medicine-id');
+                            const medicineName = medicineDiv.querySelector('h3').textContent;
+                            const qtyInput = medicineDiv.querySelector('.quantity-input');
+                            const qty = parseInt(qtyInput.value) || 0;
+                            const price = parseFloat(medicineDiv.querySelector('.medicine-price').innerText.replace('$', ''));
+                            const deliveryChargesText = medicineDiv.querySelector('.medicine-delivery').innerText.replace('$', '');
+                            let deliveryCharges = parseFloat(deliveryChargesText);
+
+                            if (isNaN(deliveryCharges) || deliveryChargesText === "Free Delivery") {
+                                deliveryCharges = 0;
+                            }
+
+                            if (medicineId && qty > 0) {
+                                const totalAmount = (qty * price) + deliveryCharges;
+                                const transDate = new Date().toISOString().split('T')[0];
+                                totalBillAmount += totalAmount;
+
+                                billItems.push({
+                                    medicineName: medicineName,
+                                    qty: qty,
+                                    price: price,
+                                    deliveryCharges: deliveryCharges,
+                                    totalAmount: totalAmount
+                                });
+
+                                fetch('http://localhost:3001/update-transaction', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        Medicine_id: medicineId,
+                                        Buyer_id: username,
+                                        Qty: qty,
+                                        Total_amt: totalAmount,
+                                        Trans_date: transDate,
+                                        Status: 'Completed',
+                                    }),
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.message && data.message === 'Quantity entered is out of stock') {
+                                        alert(data.message);
+                                        return;
+                                    }
+
+                                    console.log('Transaction updated successfully:', data);
+                                    fetch('http://localhost:3001/update-medicine-quantity', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({
+                                            Medicine_id: medicineId,
+                                            Qty: qty
+                                        }),
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log('Medicine quantity updated successfully:', data);
+                                    })
+                                    .catch(error => {
+                                        console.error('Error updating medicine quantity:', error);
+                                    });
+
+                                    generateBill(billItems, totalBillAmount, username);
+
+                                })
+                                .catch(error => {
+                                    console.error('Error updating transaction:', error);
+                                });
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching session data:', error);
+                    });
+            }
+        });
+
+        function generateBill(billItems, totalBillAmount, buyerId) {
+            const billContainer = document.getElementById('billContainer');
+            const billContentDiv = document.getElementById('billContent');
+
+            let billContent = `
+                <h3>Buyer: ${buyerId}</h3>
+                <table border="1" style="width:100%; padding:10px;">
+                    <thead>
+                        <tr>
+                            <th>Medicine</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Delivery Charges</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            billItems.forEach(item => {
+                billContent += `
+                    <tr>
+                        <td>${item.medicineName}</td>
+                        <td>${item.qty}</td>
+                        <td>$${item.price}</td>
+                        <td>$${item.deliveryCharges}</td>
+                        <td>$${item.totalAmount}</td>
+                    </tr>
+                `;
+            });
+
+            billContent += `
+                    </tbody>
+                </table>
+                <h3>Total Bill: $${totalBillAmount}</h3>
+            `;
+
+            billContentDiv.innerHTML = billContent;
+            billContainer.style.display = 'block';
+        }
+    </script>
+    
+    
+    
+    
+
+</body>
+</html>

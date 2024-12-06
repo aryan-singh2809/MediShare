@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Medicines</title>
+    <link rel="stylesheet" href="medi_sellpg.css">
+    <link rel="icon" type="image" href="immages/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="immages/MediShare_logo_1_-removebg-preview.png" alt="this is logo">
+            <span class="logo-text">MEDISHARE</span>
+        </a>
+
+        <nav class="headbar">
+            <a href="medi_userpg.html">Home</a>
+            <a href="medi_homepg_login.html">Login</a>
+            <!-- <a href="#medicine">Medicine</a>
+            <a href="#service">Service</a>
+            <a href="#contact">Contact</a> -->
+        </nav>
+    </header>
+
+    <section class="main">
+        <form id="myForm" action="/submit-form" method="POST">
+            <h1>Enter the Details of Medicines You want to Sell</h1>
+
+            <div class="input-field">
+                <i class="fas fa-id-badge"></i>
+                <input type="text" name="medicine_name" placeholder="Medicine Name" required>
+            </div>
+
+            <div class="input-field">
+                <i class="fas fa-cubes"></i>
+                <input type="number" name="quantity" placeholder="Quantity" required>
+            </div>
+
+            <div class="input-field">
+                <i class="far fa-calendar"></i>
+                <input type="text" name="expiry_date" placeholder="Expiry Date (yyyy-mm-dd)" required>
+            </div>
+
+            <div class="input-field">
+                <i class="fas fa-dollar-sign"></i>
+                <input type="number" name="price" placeholder="Price" required>
+            </div>
+
+            <button type="submit">Proceed</button>
+        </form>
+    </section>
+</body>
+</html>

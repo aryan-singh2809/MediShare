@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Compose Message</title>
+    <link rel="stylesheet" href="admin_msg.css">
+    <link rel="icon" type="image" href="immages/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="immages/MediShare_logo_1_-removebg-preview.png" alt="this is logo">
+            <span class="logo-text">MEDISHARE</span>
+        </a>
+        <nav class="headbar">
+            <a href="medi_homepg.html">Home</a>
+            <a href="medi_adminpg.html">Back</a>
+        </nav>
+    </header>
+
+    <section class="main" id="formSection">
+        <form id="composeMessageForm">
+            <h1>Compose New Notification</h1>
+
+            <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="input-field">
+                <i class="fas fa-comment-dots"></i>
+                <input id="notif_text" name="notif_text" placeholder="Enter notification text..." rows="4" required></input>
+            </div>
+
+            <div class="input-field">
+                <i class="fas fa-check-circle"></i>
+                <input type="number" id="is_read" name="is_read" min="0" max="1" placeholder="Is Read (0 = False, 1 = True)" required>
+            </div>
+
+            <div class="input-field">
+                <i class="fas fa-reply"></i>
+                <input type="number" id="reply" name="reply" min="0" max="1" placeholder="Reply (0 = False, 1 = True, Leave empty if reply is needed.)">
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </section>
+
+    <section id="thankYouMessage" style="display:none; text-align:center;">
+        <h1>Notification Submitted Successfully!</h1>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $('#composeMessageForm').on('submit', function(e) {
+            e.preventDefault(); 
+
+            var username = $('#username').val();
+            var notif_text = $('#notif_text').val();
+            var is_read = $('#is_read').val();
+            var reply = $('#reply').val() === "" ? null : parseInt($('#reply').val()); 
+
+            $.ajax({
+                url: '/submit-notification',
+                type: 'POST',
+                data: {
+                    username: username,
+                    notif_text: notif_text,
+                    is_read: is_read,
+                    reply: reply 
+                },
+                success: function(response) {
+                    document.getElementById("formSection").style.display = "none";
+                    document.getElementById("thankYouMessage").style.display = "block";
+                },
+                error: function(xhr, status, error) {
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

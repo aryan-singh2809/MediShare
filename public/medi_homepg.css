@@ -1,0 +1,747 @@
+
+/*! medi_homepg css */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+:root{
+    --black: black;
+    --light-color: #666;
+    --box-shadow: 2px 2px 12px grey;
+    --border: 2rem solid rgba(0,0,0.1)
+}
+
+*{
+    font-family: 'andika';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    text-transform: none;
+    transition: all 0.2s linear;
+}
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+}
+
+body{
+    background: #eee;
+    padding-top: 10%;
+    align-items: center;
+    flex-direction: column;
+    margin: -20px 0 50px;
+    justify-content: center;
+    min-height: 100vh;
+    display: flex;
+}
+
+/* header */
+.header{
+    height: 100px;
+    position:fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    justify-content: space-between;
+    padding: 1rem 5.2%;
+    background: linear-gradient(to right, #20B2AA, #8FD9B6);  /*#f75c5ca0*/
+    color: white;
+    z-index: 1000;
+    box-shadow: var(--box-shadow);
+}
+
+.header .logo {
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
+
+.header .logo img{
+    margin-top: 25px;
+    margin-left: -120px;
+    height: 70%;
+    width: 40%;
+    display:inline-block;
+    padding-left: 2%;
+}
+
+.header .logo-text {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 2rem; /* Adjust font size as needed */
+    color:hsl(0, 0%, 0%);
+    font-weight: bolder; /* Make the text bold */
+}
+
+.header .headbar a{
+    color: rgb(28, 74, 255);
+    font-size: 1.8rem;
+    border-radius: 0.6rem;
+    padding: 0.5rem 1.5rem;
+    font-weight: bold;
+    /* color: var(--light-color); */
+}
+#loginbtn{
+    margin-left: 50px;
+}
+.header .headbar a:hover{
+    color: #fff;
+    background: linear-gradient(120deg, #FAB2FF 40%, #663399);
+}
+
+.header .menubtn{
+    margin-right: 0px;
+}
+
+/* Style for notification button */
+.header .menubtn button {
+    padding: 10px 25px;
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+    border: none;
+    background-image: linear-gradient(to right, #649bff, #0070fa, #649bff);
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative; /* Needed for dropdown */
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    position: absolute;
+    top: 50px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    width:400px; /* Set a fixed width */
+    max-height: 300px; /* Fixed height */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+    border-radius: 10px;
+    display: none; /* Hidden by default, shown on bell click */
+}
+
+
+.notification-dropdown h4 {
+    background-color: #0070fa;
+    color: white;
+    padding: 10px;
+    margin: 0;
+    text-align: center;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+}
+
+.notification-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification-dropdown ul li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.notification-dropdown ul li:hover {
+    background-color: #f0f0f0;
+    color: #888; /* Greyish text color */
+    cursor: pointer;
+}
+
+/* Style for Yes and No buttons */
+.notification-dropdown button {
+    font-size: 0.9rem; /* Make the text smaller */
+    padding: 5px 10px; /* Adjust padding for a smaller size */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    margin: 5px; /*Space between buttons */
+}
+
+/* Light green color for the Yes button */
+.notification-dropdown button.yes-btn {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Darker green for text */
+}
+
+/* Light red color for the No button */
+.notification-dropdown button.no-btn {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Darker red for text */
+}
+
+/* Hover effects */
+.notification-dropdown button:hover {
+    opacity: 0.9; /* Slight opacity change on hover */
+}
+
+
+/* Red dot for unread notifications */
+.menubtn .notification-dot {
+    position: absolute;
+    top: 8px; /* Adjust to position the dot correctly */
+    right: 8px; /* Adjust to position the dot correctly */
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    display: none; /* Initially hidden */
+    z-index: 10;
+}
+
+
+#historyDropdown {
+    width: auto;
+    max-width: 90vw;
+    min-width: 400px;
+    border: 2px solid #007bff;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-top: 10px;
+    position: absolute;
+    z-index: 999;
+    box-sizing: border-box;
+    overflow-x: auto;
+}
+
+/* Table styling */
+#historyTable {
+    width: 100%; /* Full width to ensure it fits within the dropdown */
+    table-layout: auto;
+    border-collapse: collapse;
+    font-family: 'Nunito', sans-serif; /* Matching the existing font */
+}
+
+/* Table header styling */
+#historyTable th {
+    padding: 12px 20px;
+    text-align: left;
+    background-color: #20B2AA; /* Match the header's gradient */
+    color: white;
+    font-size: 16px;
+    border-bottom: 2px solid #ddd;
+}
+
+/* Table body cell styling */
+#historyTable td {
+    padding: 12px 20px;
+    text-align: left;
+    font-size: 14px;
+    color: var(--light-color);
+    border-bottom: 1px solid #ddd;
+    background-color: #fff; /* White background for clarity */
+}
+
+/* Styling for alternating rows */
+#historyTable tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray for alternating rows */
+}
+
+/* Hover effect for rows */
+#historyTable tr:hover {
+    background-color: #e0f7fa; /* Slight highlight */
+    cursor: pointer;
+}
+
+/* Align with the theme's box-shadow */
+#historyDropdown {
+    box-shadow: var(--box-shadow);
+}
+
+/* header */
+#infoBtnContainer {
+    position: fixed; /* Keep it fixed to the viewport */
+    top: 120px; /* Adjusted to add a gap above the button */
+    right: 20px; /* Space from the right edge */
+    /* z-index: 1000; Ensure it appears above other elements */
+}
+
+#infoBtn {
+    background-color: rgba(0, 123, 255, 0.3); /* Semi-transparent blue */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    transition: all 0.3s ease-in-out; /* Smooth hover effect */
+}
+
+/* Hover effect for more visibility */
+#infoBtn:hover {
+    background-color: rgba(0, 123, 255, 0.9); /* Slightly darker on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+}
+
+#infoPopup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* Subtle gradient */
+    border: 1px solid #007bff;
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow for depth */
+    width: 400px; /* Wider popup */
+    max-width: 80vw; /* Adjust width for smaller screens */
+    padding: 20px;
+    overflow: hidden;
+    font-family: 'Nunito', sans-serif;
+    color: #333; /* Neutral text color */
+}
+
+/* Popup Header */
+.info-popup-content h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.8rem; /* Larger font size */
+    color: #007bff; /* Blue for header */
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase; /* Capitalized header */
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #555;
+    background: transparent;
+    border: none;
+    padding: 5px;
+    transition: all 0.2s ease-in-out;
+}
+
+.close-btn:hover {
+    color: red; /* Highlight on hover */
+}
+
+/* Popup Content */
+.info-popup-content {
+    text-align: left; /* Align text to left for instructions */
+}
+
+.info-popup-content p {
+    font-size: 1.4rem; /* Increase font size */
+    line-height: 1.6; /* Improve readability */
+    margin: 10px 0;
+    color: #555;
+}
+.info-popup-content h4 {
+    font-size: 1.4rem; /* Increase font size */
+    line-height: 1.6; /* Improve readability */
+    margin: 10px 0;
+    color: #555;
+}
+
+/* Buttons in Popup */
+#infoPopup button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin: 10px auto;
+    display: block; /* Center button */
+    transition: all 0.2s ease-in-out;
+}
+
+#infoPopup button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+
+
+/* main */
+
+.main{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+}
+
+.main .left{
+    flex:1;
+    padding-left: 50px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.main .left h2{
+    font-size: 30px;
+    text-transform: capitalize;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.main .left h1{
+    font-size: 42px;
+    text-transform: capitalize;
+    font-weight: 700;
+    margin: 15px 0;
+}
+
+.main .left p{
+    margin-bottom: 20px;
+    font-size: 15px;
+    color: black;
+}
+
+.main .left button{
+    padding-top: 12px;
+    padding: 15px 45px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    border:1px solid;
+    box-shadow: var(--box-shadow);
+    background-image: linear-gradient(to right, #649bff, #0070fa, #649bff);
+    border-radius: 10px;
+}
+
+.main .right{
+    flex: 1; /* Take up equal space */
+    padding-right: 50px;
+}
+
+.main .right img{
+    padding-top: 25%;
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 500px;
+    border-radius: 40%;
+    
+}
+
+/* main */
+
+/*! medi_homepg_login form css*/
+
+.container{
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    position: relative;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+
+}
+
+form{
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    text-align: center;
+
+}
+
+h1{
+    font-weight: bold;
+    margin: 0;
+    font-size: 30px;
+}
+
+.social-container a{
+    border: 1px solid #DDDDDD;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    height: 40px;
+    width: 40px;
+}
+
+.social-container{
+    margin: 20px 0;
+}
+
+span{
+    font-size: 12px;
+}
+
+a{
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+}
+
+.input-field{
+    width: 100%;
+    height: 50px;
+    background: #eee;
+    margin: 10px 0;
+    border: 2px solid black;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.input-field i{
+    flex: 1;
+    text-align: center;
+    color: #666;
+    font-size: 18px;
+}
+
+.input-field input{
+    flex: 5;
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 600;
+    color: #444;
+}
+
+button{
+    border-radius: 20px;
+    border: 1px solid #FF4B2B;
+    background-color: #FF4B2B;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 80ms ease-in;
+}
+
+button.btn{
+    background-color: transparent;
+    border-color: #ffffff;
+}
+
+button:active{
+    transform: scale(0.95);
+}
+
+button:focus{
+    outline: none;
+}
+
+p{
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 5px 0 5px;
+}
+
+.form{
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container{
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.container.right-panel-active .sign-in-container{
+    transform: translateX(100%);
+}
+
+.sign-up-container{
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.container.right-panel-active .sign-up-container{
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+}
+
+.overlay-container{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+}
+
+.container.right-panel-active .overlay-container{
+    transform: translateX(-100%);
+}
+
+.overlay{
+    background: -webkit-linear-gradient(to right, #00bfff 40%, #663399);
+    background: linear-gradient(to right, #00bfff 40%, #663399);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #fff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.container.right-panel-active .overlay{
+    transform: translateX(50%);
+}
+
+.overlay-panel{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left{
+    transform: translateX(-20%);
+}
+
+.container.right-panel-active .overlay-left{
+    transform: translateX(0);
+}
+
+.overlay-right{
+    right: 0;
+    transform: translateX(0);
+}
+
+.container.right-panel-active .overlay-right{
+    transform: translateX(20%);
+}
+
+/*! Login Page form*/
+
+/*! medi_userpg css */
+/* main */
+
+.main_user{
+    /* width: 100%; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    gap: 100px;
+}
+
+.main_user .left{
+    flex:1;
+    padding-left: 50px;
+    text-align: center;
+    line-height: 1.6;
+    border-radius: 20px;
+    background: linear-gradient(to right, #80bd8b, #8cc394, #bdf8b8);
+    min-height: 500px; 
+    width: 500px; 
+    padding-right: 5%;
+    
+}
+
+.main_user .left h2{
+    font-size: 30px;
+    text-transform: capitalize;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.main_user .left img{
+    height: 80%;
+    width: auto;
+    display:inline-block;
+}
+
+.main_user .left button{
+    padding-top: 12px;
+    padding: 15px 45px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    border:1px solid;
+    box-shadow: var(--box-shadow);
+    background-image: linear-gradient(to right, #649bff, #0070fa, #649bff);
+    border-radius: 10px;
+}
+
+.main_user .right{
+    flex:1;
+    padding-left: 50px;
+    text-align: center;
+    line-height: 1.6;
+    border-radius: 20px;
+    background: linear-gradient(to right, #bdf8b8, #8cc394, #80bd8b);
+    min-height: 500px; 
+    width: 500px; 
+    padding-right: 5%;
+    
+}
+
+.main_user .right img{
+    /* margin-top: 25px;
+    margin-left: -130px; */
+    height: 70%;
+    width: 40%;
+    display:inline-block;
+    padding-top: 25px;
+    padding-bottom: 35px;
+}
+
+.main_user .right h2{
+    font-size: 30px;
+    text-transform: capitalize;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.main_user .right button{
+    padding-top: 12px;
+    padding: 15px 45px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    border:1px solid;
+    box-shadow: var(--box-shadow);
+    background-image: linear-gradient(to right, #649bff, #0070fa, #649bff);
+    border-radius: 10px;
+}

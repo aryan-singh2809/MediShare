@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+    <link rel="stylesheet" type="text/css" href="medi_homepg.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image" href="immages/favicon.png">  
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="immages/MediShare_logo_1_-removebg-preview.png" alt="this is logo">
+            <span class="logo-text">MEDISHARE</span>
+        </a>
+
+        <nav class="headbar">
+            <a href="medi_homepg.html">Home</a>
+            <!-- <a href="medi_homepg_login.html">Login</a> -->
+            <!-- <a href="#medicine">Medicine</a>
+            <a href="#service">Service</a>
+            <a href="#contact">Contact</a> -->
+        </nav>
+    </header>
+
+    <div class="container" id="container">
+        <div class="form sign-up-container">
+            <form action="/signup" method="post" id="signupForm">
+                <h1>Create An Account</h1>
+                <div class="input-field">
+                    <i class="fa fa-user"></i>
+                    <input type="text" name="username" placeholder="Username">
+                </div>
+
+                <div class="input-field">
+                    <i class="fa fa-envelope"></i>
+                    <input type="email" name="email" placeholder="Email">
+                </div>
+
+                <div class="input-field">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+
+
+        <div class="form sign-in-container">
+            <form action="/login" method="post">
+                <h1>Login</h1>
+                <div class="input-field">
+                    <i class="fa fa-user"></i>
+                    <input type="text" name="username" placeholder="Username">
+                </div>
+
+                <div class="input-field">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+                <a href="#">Forgot your password?</a>
+                <button type="submit">Sign In</button>
+            </form>
+        </div>
+
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <img src="immages/s1.png" alt="this is banner1" style="height: 25rem; width: 30rem; padding-top: 5%;">
+                    <button class="btn" id="signIn">Sign In</button>
+                </div>
+
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello User!</h1>
+                    <p>Enter your personal details and start your journey with us</p>
+                    <img src="immages/s3.png" alt="this is banner2" style="height: 25rem; width: 30rem; padding-top: 5%;">
+                    <button class="btn" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('container');
+        const signupForm = document.getElementById('signupForm');
+    
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+    
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+    
+        signupForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+    
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        let latInput = document.querySelector('input[name="latitude"]');
+                        let lonInput = document.querySelector('input[name="longitude"]');
+
+                        if (!latInput) {
+                            latInput = document.createElement('input');
+                            latInput.type = 'hidden';
+                            latInput.name = 'latitude';
+                            signupForm.appendChild(latInput);
+                        }
+                        latInput.value = latitude;
+    
+                        if (!lonInput) {
+                            lonInput = document.createElement('input');
+                            lonInput.type = 'hidden';
+                            lonInput.name = 'longitude';
+                            signupForm.appendChild(lonInput);
+                        }
+                        lonInput.value = longitude;
+    
+                        signupForm.submit();
+                    },
+                    () => {
+                        alert('Location permission denied. Proceeding without location.');
+                        signupForm.submit();
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by this browser.');
+                signupForm.submit();
+            }
+        });
+    </script>    
+    
+</body>
+</html>

@@ -1,0 +1,474 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+:root{
+    --black: black;
+    --light-color: #666;
+    --box-shadow: 2px 2px 8px grey;
+    --border: 2rem solid rgba(0,0,0.1);
+}
+
+*{
+    font-family: 'andika';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    text-transform: none;
+    transition: all 0.2s linear;
+}
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+}
+
+body{
+    background: #eee;
+    padding-top: 10%;
+    align-items: center;
+    flex-direction: column;
+    margin: -20px 0 50px;
+    justify-content: center;
+    min-height: 100vh;
+    display: flex;
+}
+
+/* header */
+.header{
+    height: 100px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    justify-content: space-between;
+    padding: 1rem 5.2%;
+    background: linear-gradient(to right, #20B2AA, #8FD9B6);
+    color: white;
+    z-index: 1000;
+    box-shadow: var(--box-shadow);
+}
+
+.header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo img{
+    margin-top: 25px;
+    margin-left: -120px;
+    height: 70%;
+    width: 40%;
+    display: inline-block;
+    padding-left: 2%;
+}
+
+.header .logo-text {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 2rem;
+    color: hsl(0, 0%, 0%);
+    font-weight: bolder;
+}
+
+.header .headbar a{
+    color: rgb(28, 74, 255);
+    font-size: 1.8rem;
+    border-radius: 0.6rem;
+    padding: 0.5rem 1.5rem;
+    font-weight: bold;
+}
+
+.header .headbar a:hover{
+    color: #fff;
+    background: linear-gradient(120deg, #FAB2FF 40%, #663399);
+}
+
+/* Button styles for Compose and Analytics */
+.header .right{
+    padding: 12px 45px;
+    text-align: center;
+    font-size: 16px;
+    color: #f9eded;
+    border: 1px solid;
+    box-shadow: var(--box-shadow);
+    background-image: linear-gradient(to right, #649bff, #0070fa, #649bff);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.header button:hover {
+    background-image: linear-gradient(to right, #0070fa, #005bb5, #0070fa);
+}
+
+/* main */
+.main{
+    /* width: 100%; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    gap: 30px;
+}
+
+.main .left{
+    flex:1;
+    padding-left: 50px;
+    text-align: center;
+    justify-content: center;
+    line-height: 1.6;
+    border-radius: 20px;
+    background: linear-gradient(to right, #80bd8b, #8cc394, #bdf8b8);
+    min-height: 500px; 
+    width: 350px; 
+    padding-right: 5%;
+    
+}
+
+.main .left h2{
+    font-size: 2rem;
+    text-transform: capitalize;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.main .left img{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 250px;
+    width: auto;
+    display:inline-block;
+}
+
+.main .left button{
+    padding-top: 12px;
+    padding: 15px 45px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    border:1px solid;
+    box-shadow: var(--box-shadow);
+    background-image: linear-gradient(to right, #649bff, #0070fa, #649bff);
+    border-radius: 10px;
+}
+
+/* mid  */
+.main .mid{
+    flex:1;
+    padding-left: 50px;
+    text-align: center;
+    line-height: 1.6;
+    border-radius: 20px;
+    background: linear-gradient(to right, #80bd8b, #8cc394, #bdf8b8);
+    min-height: 500px; 
+    width: 350px; 
+    padding-right: 5%;
+    
+}
+
+.main .mid h2{
+    font-size: 2rem;
+    text-transform: capitalize;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.main .mid img{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 240px;
+    width: auto;
+    display:inline-block;
+}
+
+.main .mid button{
+    padding-top: 12px;
+    padding: 15px 45px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    border:1px solid;
+    box-shadow: var(--box-shadow);
+    background-image: linear-gradient(to right, #649bff, #0070fa, #649bff);
+    border-radius: 10px;
+}
+/* mid */
+
+.main .right{
+    flex:1;
+    padding-left: 50px;
+    text-align: center;
+    line-height: 1.6;
+    border-radius: 20px;
+    background: linear-gradient(to right, #80bd8b, #8cc394, #bdf8b8);
+    min-height: 500px; 
+    width: 350px; 
+    padding-right: 5%;
+    
+}
+
+/* .main .right img{
+     margin-top: 25px;
+    margin-left: -130px; 
+    height: 240px;
+    width: auto;
+    display:inline-block;
+    padding-top: 25px;
+    padding-bottom: 35px;
+    border-color: 2px #ffffff solid;
+    box-sizing: border-box;
+} */
+
+.main .right img {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 200px;            /* Height of the image */
+    width: auto;             /* Auto width to maintain aspect ratio */
+    display: inline-block;    /* Bottom padding */
+    border: 7px solid #ffffff; /* Combined border property */
+    box-sizing: border-box;   /* Ensure padding and border are included in total width/height */
+}
+
+.main .right h2{
+    font-size: 2rem;
+    text-transform: capitalize;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.main .right button{
+    padding-top: 12px;
+    padding: 15px 45px;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    border:1px solid;
+    box-shadow: var(--box-shadow);
+    background-image: linear-gradient(to right, #649bff, #0070fa, #649bff);
+    border-radius: 10px;
+}
+
+
+#medicineDropdown {
+    /* display: none; */
+    width: auto; /* Let the dropdown take as much space as required */
+    max-width: 90vw; /* Ensure the dropdown doesn't exceed 90% of the viewport width */
+    min-width: 400px; /* Optional: Set a minimum width */
+    border: 2px solid #007bff; /* Blue border for the dropdown */
+    background-color: #f9f9f9; /* Lighter background for better contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Softer shadow for floating effect */
+    padding: 15px;
+    margin-top: 10px;
+    position: absolute;
+    z-index: 999;
+    box-sizing: border-box; /* Ensures padding is included in width */
+    overflow-x: auto; /* Allow horizontal scrolling if the table overflows */
+}
+
+/* Table styling */
+#medicineTable {
+    width: auto; /* Let the table take as much space as required by its content */
+    table-layout: auto; /* Adjust the column widths based on content */
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif; /* Clean and modern font */
+}
+
+/* Table header styling */
+#medicineTable th {
+    padding: 12px 20px;
+    text-align: left;
+    background-color: #007bff; /* Blue background for header */
+    color: white; /* White text for contrast */
+    font-size: 16px; /* Larger font size for readability */
+    border-bottom: 2px solid #ddd;
+}
+
+/* Table body cell styling */
+#medicineTable td {
+    padding: 12px 20px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff; /* White background for rows */
+}
+
+/* Styling for alternating rows */
+#medicineTable tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray background for even rows */
+}
+
+/* Hover effect for rows */
+#medicineTable tr:hover {
+    background-color: #f1f1f1; /* Slight highlight on hover */
+    cursor: pointer; /* Cursor changes to pointer for better interaction */
+}
+
+
+#messageDropdown {
+    /* display: none; */
+    width: auto; /* Let the dropdown take as much space as required */
+    max-width: 90vw; /* Ensure the dropdown doesn't exceed 90% of the viewport width */
+    min-width: 400px; /* Optional: Set a minimum width */
+    border: 2px solid #007bff; /* Blue border for the dropdown */
+    background-color: #f9f9f9; /* Lighter background for better contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Softer shadow for floating effect */
+    padding: 15px;
+    margin-top: 10px;
+    position: absolute;
+    z-index: 999;
+    box-sizing: border-box; /* Ensures padding is included in width */
+    overflow-x: auto; /* Allow horizontal scrolling if the table overflows */
+}
+
+/* Table styling */
+#messageTable {
+    width: auto; /* Let the table take as much space as required by its content */
+    table-layout: auto; /* Adjust the column widths based on content */
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif; /* Clean and modern font */
+}
+
+/* Table header styling */
+#messageTable th {
+    padding: 12px 20px;
+    text-align: left;
+    background-color: #007bff; /* Blue background for header */
+    color: white; /* White text for contrast */
+    font-size: 16px; /* Larger font size for readability */
+    border-bottom: 2px solid #ddd;
+}
+
+/* Table body cell styling */
+#messageTable td {
+    padding: 12px 20px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff; /* White background for rows */
+}
+
+/* Styling for alternating rows */
+#messageTable tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray background for even rows */
+}
+
+/* Hover effect for rows */
+#messageTable tr:hover {
+    background-color: #f1f1f1; /* Slight highlight on hover */
+    cursor: pointer; /* Cursor changes to pointer for better interaction */
+}
+
+
+
+
+
+#transactionDropdown {
+    /* display: none; */
+    width: auto; /* Let the dropdown take as much space as required */
+    max-width: 90vw; /* Ensure the dropdown doesn't exceed 90% of the viewport width */
+    min-width: 400px; /* Optional: Set a minimum width */
+    border: 2px solid #007bff; /* Blue border for the dropdown */
+    background-color: #f9f9f9; /* Lighter background for better contrast */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Softer shadow for floating effect */
+    padding: 15px;
+    margin-top: 10px;
+    position: absolute;
+    z-index: 999;
+    box-sizing: border-box; /* Ensures padding is included in width */
+    overflow-x: auto; /* Allow horizontal scrolling if the table overflows */
+}
+
+/* Table styling */
+#transactionTable {
+    width: auto; /* Let the table take as much space as required by its content */
+    table-layout: auto; /* Adjust the column widths based on content */
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif; /* Clean and modern font */
+}
+
+/* Table header styling */
+#transactionTable th {
+    padding: 12px 20px;
+    text-align: left;
+    background-color: #007bff; /* Blue background for header */
+    color: white; /* White text for contrast */
+    font-size: 16px; /* Larger font size for readability */
+    border-bottom: 2px solid #ddd;
+}
+
+/* Table body cell styling */
+#transactionTable td {
+    padding: 12px 20px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff; /* White background for rows */
+}
+
+/* Styling for alternating rows */
+#transactionTable tr:nth-child(even) {
+    background-color: #f2f2f2; /* Light gray background for even rows */
+}
+
+/* Hover effect for rows */
+#transactionTable tr:hover {
+    background-color: #f1f1f1; /* Slight highlight on hover */
+    cursor: pointer; /* Cursor changes to pointer for better interaction */
+}
+/*-----------toggle switch ------------------*/
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+    visibility: visible !important;
+    position: relative !important;
+    z-index: 10;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: '';
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #007ecc;
+}
+
+input:checked + .slider:before {
+    transform: translateX(14px);
+}

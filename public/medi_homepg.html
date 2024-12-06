@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="medi_homepg.css">
+    <link rel="icon" type="image" href="immages/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="immages/MediShare_logo_1_-removebg-preview.png" alt="this is logo">
+            <span class="logo-text">MEDISHARE</span>
+        </a>
+        <nav class="headbar">
+            <a href="medi_homepg.html">Home</a>
+            <a href="medi_homepg_login.html">Login</a>
+        </nav>
+
+
+    </header>
+
+    <section class="main">
+        <div class="left">
+            <h2>Welcome!</h2>
+            <h1>We are here to provide services for safe exchange of medicines</h1>
+            <p>Don't have an account?.</p>
+
+            <button id="createbtn" onclick="location.href='medi_homepg_login.html'">Create Account / Login</button>
+        </div>
+
+        <div class="right">
+            <img src="immages/pharmacy1.jpeg" alt="">
+        </div>
+    </section>
+
+    <script>
+        const notifBtn = document.getElementById("notifBtn");
+        const notifDropdown = document.getElementById("notifDropdown");
+
+        notifBtn.addEventListener("click", function() {
+            notifDropdown.style.display = notifDropdown.style.display === "block" ? "none" : "block";
+        });
+
+        window.addEventListener("click", function(event) {
+            if (!notifBtn.contains(event.target) && !notifDropdown.contains(event.target)) {
+                notifDropdown.style.display = "none";
+            }
+        });
+
+    </script>   
+</body>
+</html>
