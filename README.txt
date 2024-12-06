@@ -1,4 +1,4 @@
-A. MAKE SURE YOU HAVE node.js INSTALLED IN YOUR SYSTEMS.
+*A. MAKE SURE YOU HAVE node.js INSTALLED IN YOUR SYSTEMS.*
 
     To download and install Node.js, follow these steps:
         1. Go to the Official Node.js Website
@@ -32,7 +32,7 @@ A. MAKE SURE YOU HAVE node.js INSTALLED IN YOUR SYSTEMS.
 
 
 
-B. MAKE SURE YOU HAVE THESE npm PACKAGES INSTALLED IN YOUR SYSTEMS.
+*B. MAKE SURE YOU HAVE THESE npm PACKAGES INSTALLED IN YOUR SYSTEMS.*
     ├── bcrypt@5.1.1
     ├── body-parser@1.20.3
     ├── chart.js@4.4.6
@@ -41,7 +41,6 @@ B. MAKE SURE YOU HAVE THESE npm PACKAGES INSTALLED IN YOUR SYSTEMS.
     ├── cron@3.1.9  
     ├── express-session@1.18.1
     ├── express@4.21.1
-    ├── multer@1.4.5-lts.1
     └── mysql2@3.11.4
     
     If you miss any of the packages, then here are individual commands to install these packages, just run these commands in terminal/bash on your system:
@@ -51,7 +50,6 @@ B. MAKE SURE YOU HAVE THESE npm PACKAGES INSTALLED IN YOUR SYSTEMS.
         npm install cron@3.1.9
         npm install express-session@1.18.1
         npm install express@4.21.1
-        npm install multer@1.4.5-lts.1
         npm install mysql2@3.11.4
 
     Notes for Each OS:
@@ -59,7 +57,7 @@ B. MAKE SURE YOU HAVE THESE npm PACKAGES INSTALLED IN YOUR SYSTEMS.
         macOS/Linux: You may need to prepend commands with sudo if you encounter permission issues (but usually, npm manages this well without it).
 
 
-C. MAKE SURE TO RUN THESE COMMANDS IN YOUR SQL Workbench/Command-client:
+*C. MAKE SURE TO RUN THESE COMMANDS IN YOUR SQL Workbench/Command-client:*
     Individually run these commands step-by-step.
 
     1. DATABASE CREATION:
@@ -139,10 +137,12 @@ C. MAKE SURE TO RUN THESE COMMANDS IN YOUR SQL Workbench/Command-client:
         );
 
 
-D. MAKE SURE TO EDIT "Database Configuration" of THE medi_conn.js FILE.
+*D. MAKE SURE TO EDIT "Database Configuration" of THE medi_conn.js FILE.*
 
     // Database configuration
     const DB_USERNAME = "your_user_name"; // <-Change this
     const DB_PASS = "your_password"; // <-Change this
     const DB_HOSTNAME = "localhost";
     const DB_NAME = "medishare";
+
+*E. Run the project using node "path/to/your/file/server.js".*
