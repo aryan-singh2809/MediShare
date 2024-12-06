@@ -1,3 +1,21 @@
+MediShare is an innovative college project designed with a primary focus on robust DBMS and backend functionalities. The platform allows users to list their medicines for sale, while others can purchase them seamlessly.
+
+To ensure security and privacy, users create accounts with passwords securely hashed using bcrypt.js before being stored in the database. This guarantees the confidentiality of user data.
+
+Search results are intelligently optimized based on user location. Leveraging the Geolocation API and Haversine’s formula, only medicines available within a 15km radius are displayed. Additionally, the platform performs automated expiry date checks on all listed medicines every 24 hours using the cron library.
+
+When a transaction occurs, MediShare’s automatic notification system ensures both buyers and sellers are promptly informed. This feature enhances communication and streamlines the user experience.
+
+The Admin Panel provides powerful tools and analytics to maintain the platform’s efficiency:
+
+Medicine Verification: Newly added medicines can be reviewed and approved by the admin.
+Transaction Monitoring: The admin can track recently completed transactions and prioritize notifications that require urgent attention.
+Custom Notifications: Admins can send tailored notifications to users.
+Visual Analytics: The platform incorporates chart.js to present website analytics in a visually appealing manner, enabling data-driven decision-making.
+
+# Tech stack:
+HTML, CSS, JavaScript, Node.js, MySQL.
+
 *A. MAKE SURE YOU HAVE node.js INSTALLED IN YOUR SYSTEMS.*
 
     To download and install Node.js, follow these steps:
