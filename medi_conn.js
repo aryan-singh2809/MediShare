@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 const DB_USERNAME = "root";
-const DB_PASS = "root";
+const DB_PASS = "My!nst@_1136";
 const DB_HOSTNAME = "localhost";
 const DB_NAME = "medishare";
 
